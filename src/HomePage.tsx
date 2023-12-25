@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function MainPage() {
   // search countries
@@ -8,7 +8,18 @@ export default function MainPage() {
     Array<{
       name: string;
       capital: string;
+      languages: object;
       population: number;
+      area: number;
+      continent: string;
+      region: string;
+      flag: { alt: string; png: string; svg: string };
+      coatOfArms: { png: string; svg: string };
+      map: string;
+      altSpellings: Array<string>;
+      currencies: object;
+      timezones: Array<string>;
+      car: { signs: Array<string>; side: string };
     }>
   >([]);
 
@@ -27,11 +38,33 @@ export default function MainPage() {
           (item: {
             name: { common: string };
             capital: string;
+            languages: object;
             population: number;
+            area: number;
+            continents: string;
+            region: string;
+            flags: { alt: string; png: string; svg: string };
+            coatOfArms: { png: string; svg: string };
+            maps: { googleMaps: string };
+            altSpellings: Array<string>;
+            currencies: object;
+            timezones: Array<string>;
+            car: { signs: Array<string>; side: string };
           }) => ({
             name: item.name.common,
             capital: item.capital,
+            languages: item.languages,
             population: item.population,
+            area: item.area,
+            continent: item.continents,
+            region: item.region,
+            flag: item.flags,
+            coatOfArms: item.coatOfArms,
+            map: item.maps.googleMaps,
+            altSpellings: item.altSpellings,
+            currencies: item.currencies,
+            timezones: item.timezones,
+            car: item.car,
           })
         );
         setCountryList(countryData);
@@ -45,53 +78,21 @@ export default function MainPage() {
   );
   console.log(countryList);
 
-  //////////
-
-  const navigate = useNavigate();
-
-  function handleNavigation(
-    country: string,
-    capital: string,
-    population: number
-  ) {
-    navigate("/:country", {
-      state: {
-        country: { country },
-        capital: { capital },
-        population: { population },
-      },
-    });
-  }
-
   return (
     <>
+      <h1>Get information about countries</h1>
       <input
+        placeholder="Input country..."
         type="text"
         value={inputCountry}
         onChange={(e) => setInputCountry(e.target.value)}
       />
       <ul>
-        {countryList?.map((country, index) => (
-          // <Country
-          //   key={index}
-          //   name={country.name}
-          //   capital={country.capital}
-          //   population={country.population}
-          // />
-          <li key={index}>
-            <button
-              onClick={() =>
-                handleNavigation(
-                  country.name,
-                  country.capital,
-                  country.population
-                )
-              }
-            >
+        {countryList?.map((country) => (
+          <li key={country.name}>
+            <Link to={`/${country.name}`} state={country}>
               {country.name}
-            </button>
-            {/* <Link to="/details/:country">{country.name}</Link> */}
-            {/* <Link to="/:country">{country.name}</Link> */}
+            </Link>
           </li>
         ))}
       </ul>
