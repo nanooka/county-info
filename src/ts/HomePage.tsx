@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+import { Container, ListGroup } from "react-bootstrap";
+
 export default function MainPage() {
   // search countries
   const [inputCountry, setInputCountry] = useState("");
@@ -79,7 +81,24 @@ export default function MainPage() {
   console.log(countryList);
 
   return (
-    <>
+    <Container className="text-center mt-5">
+      {/* <h1>Get information about countries</h1>
+      <input
+        placeholder="Input country..."
+        type="text"
+        value={inputCountry}
+        onChange={(e) => setInputCountry(e.target.value)}
+      />
+      <ul className="list-group">
+        {countryList?.map((country) => (
+          <li className="list-group-item" key={country.name}>
+            <Link to={`/${country.name}`} state={country}>
+              {country.name}
+            </Link>
+          </li>
+        ))}
+      </ul> */}
+
       <h1>Get information about countries</h1>
       <input
         placeholder="Input country..."
@@ -87,15 +106,19 @@ export default function MainPage() {
         value={inputCountry}
         onChange={(e) => setInputCountry(e.target.value)}
       />
-      <ul>
+      <ListGroup as="ul" className="mt-5">
         {countryList?.map((country) => (
-          <li key={country.name}>
+          <ListGroup.Item
+            as="li"
+            className="list-group-item"
+            key={country.name}
+          >
             <Link to={`/${country.name}`} state={country}>
               {country.name}
             </Link>
-          </li>
+          </ListGroup.Item>
         ))}
-      </ul>
-    </>
+      </ListGroup>
+    </Container>
   );
 }
